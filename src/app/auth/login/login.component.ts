@@ -1,5 +1,5 @@
 // this style is a Reactive Forms
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -14,4 +14,11 @@ export class LoginComponent {
     email: new FormControl(''),
     password: new FormControl(''),
   });
+
+  onSubmit() {
+    // console.log(this.form)
+    const inputEmail = this.form.value.email;
+    const inputPassword = this.form.value.password;
+    console.log(inputEmail, inputPassword)
+  }
 }
