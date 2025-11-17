@@ -21,6 +21,21 @@ export class LoginComponent {
   private destroyRef = inject(DestroyRef);
   constructor() {
     afterNextRender(() => {
+      const savedForm = window.localStorage.getItem('save-login-form');
+
+      if (savedForm) {
+        const loadedFormData = JSON.parse(savedForm);
+        const savedEmailData = loadedFormData.email;
+        // this.form()?.setValue({
+        //   email: savedEmailData,
+        //   password: ''
+        // }) ////this is another way to set all
+
+        setTimeout(() => {
+          this.form()?.controls['email'].setValue(savedEmailData); // set a value to one control only
+        }, 1);
+      }
+
       const subscription = this.form()
         ?.valueChanges?.pipe(debounceTime(500))
         .subscribe({
