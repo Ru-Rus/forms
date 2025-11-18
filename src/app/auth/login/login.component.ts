@@ -1,11 +1,30 @@
 // this style is a Reactive Forms
 import { Component, input } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { of } from 'rxjs';
+
+function mustHaveQuestionMark(control: AbstractControl) {
+  if (control.value.includes('?')) {
+    return null;
+  }
+
+  return { doesNotContainQuestionMark: true };
+}
+
+function emailIsUnique(control: AbstractControl) {
+  if (control.value !== 'test@gmail.com') {
+    // this is only a test case it should be in the backend
+    return of(null);
+  }
+
+  return of({ notUnique: true });
+}
 
 @Component({
   selector: 'app-login',
@@ -18,9 +37,14 @@ export class LoginComponent {
   form = new FormGroup({
     email: new FormControl('', {
       validators: [Validators.email, Validators.required],
+      asyncValidators: [emailIsUnique],
     }),
     password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [
+        Validators.required,
+        Validators.minLength(6),
+        mustHaveQuestionMark,
+      ],
     }),
   });
 
