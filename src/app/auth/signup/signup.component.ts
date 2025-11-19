@@ -42,6 +42,7 @@ export class SignupComponent {
         }),
       },
       {
+        //Creating Multi-Input Validators / Form Group Validators
         validators: [equalValues('password', 'confirmPassword')],
       }
     ),
